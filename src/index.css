@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Ancizar+Sans:ital,wght@0,100..1000;1,100..1000&family=Sora:wght@100..800&display=swap');
+
+@import "tailwindcss";
+@import "daisyui/daisyui.css";
+
+@theme {
+
+    /*** breakpoints ***/
+    --breakpoint-xxs: 20rem;
+    --breakpoint-xs: 21.875rem;
+    --breakpoint-sm: 28.125rem;
+    --breakpoint-md: 47.9375rem;
+    --breakpoint-lg: 58.75rem;
+    --breakpoint-xlg: 64rem;
+    --breakpoint-xl: 75rem;
+    --breakpoint-2xl: 80rem;
+    --breakpoint-3xl: 90rem;
+
+    /* fonts */
+    --font-sans: 'Sora', sans-serif;
+    --font-serif: 'Ancizar Sans', serif;
+}
+
+@layer base {
+    * {
+        @apply m-0 p-0 box-border;
+    }
+
+    html {
+        @apply min-h-full w-full scroll-smooth;
+    }
+
+    body {
+        @apply min-h-full w-full capitalize font-sans mx-auto font-normal;
+    }
+
+    main {
+        @apply xxs:w-full lg:w-11/12 mx-auto;
+    }
+
+    img {
+        @apply w-full h-full object-cover align-middle;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply text-2xl font-bold font-serif;
+    }
+    p {
+        @apply text-lg font-normal;
+    }
+}
+
