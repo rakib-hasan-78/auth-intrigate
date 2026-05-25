@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { useToggle } from '../../../customhooks/toggle/toggle';
+import { VscEye, VscEyeClosed } from 'react-icons/vsc';
 
 const Register = () => {
+    const [eye, setEye] = useToggle();
     return (
         <div
-        className='w-full min-h-full flex flex-col items-center justify-center my-10'
+        className='w-full min-h-full flex flex-col items-center justify-center'
         >
             
             <form  className='w-5/12 flex items-center justify-center'>
@@ -18,20 +21,19 @@ const Register = () => {
                                     <label className="label">Email</label>
                                     <input type="#" className="input" placeholder="Email" name='email'  
                                     />
-                                    <label className="label">upload image</label>
-                                    <input
-                                     type="file" className="input" placeholder="your picture" 
-                                     name='file'   
-                                    />
                                     <label className="label">Password</label>
                                     <div className='relative'>
 
-                                    <input className="input" placeholder="Password" name='password'   
+                                    <input className="input" placeholder="Password" name='password'
+                                    type={eye ? 'text' : 'password'}   
                                     />
-                                    <button
-                                    className='btn btn-xs absolute top-1/2 -translate-y-1/2 -translate-x-4 right-0 rounded-full w-6 h-6 font-extralight text-white' 
-                                    type="button">
-                                    </button>
+                                    <span
+                                    className='absolute top-1/2 -translate-y-1/2 -translate-x-4 right-0 w-6 h-6 font-extralight text-xl cursor-pointer' 
+                                    onClick={setEye}
+                                    >
+                                    {eye ?  <VscEyeClosed className='text-gray-500' /> :
+                                    <VscEye className='text-gray-400' />  }
+                                    </span>
                                     </div>
                                     <div>
                                         <label className="label">

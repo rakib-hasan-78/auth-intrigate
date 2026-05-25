@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { useToggle } from '../../../customhooks/toggle/toggle';
+import { VscEye, VscEyeClosed } from 'react-icons/vsc';
 
 const Login = () => {
+    const [toggle, toggleHandler] = useToggle()
     return (
-        <div className='w-full min-h-full flex flex-col items-center justify-center my-10'>
+        <div className='w-full min-h-full flex flex-col items-center justify-center'>
             <form  action="#">
                 <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-5">
                 
@@ -13,7 +16,24 @@ const Login = () => {
                 <input name='email' type="email" className="input" placeholder="Email" />
 
                 <label className="label">Password</label>
-                <input  type="password" name='password' className="input" placeholder="Password" />
+                <div className='relative'>
+
+                <input 
+                className="input" 
+                placeholder="Password" 
+                name='password'
+                type={toggle ? 'text' : 'password'}   
+                />
+                <span
+                className='absolute top-1/2 -translate-y-1/2 -translate-x-4 right-0 w-6 h-6 font-extralight text-xl cursor-pointer' 
+                onClick={toggleHandler}
+                >
+                { 
+                    toggle ? <VscEyeClosed className='text-gray-500' /> : 
+                            <VscEye className='text-gray-500' />
+                }
+                </span>
+                </div>
 
                 <button 
                 type='submit' 
