@@ -1,36 +1,82 @@
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+    createUserWithEmailAndPassword,
+    updateProfile
+} from "firebase/auth";
+
 import { toast } from "react-toastify";
 
-const signupHandler = (e, auth, email, password, displayName,setLoader)=>{
-    // preventing browser loading
+const signupHandler = (
+    e,
+    auth,
+    email,
+    password,
+    displayName,
+    setLoader,
+    reset
+) => {
+
+    // prevent reload
     e.preventDefault();
 
-    // signup method 
-    try {   
-            // loader spinning start
-            setLoader(true);
-            // initiating firebase to signup
-            createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential)=>{
-                    const user = userCredential.user;
-                    console.log(user);
-                    updateProfile(user,{
-                        displayName: displayName
-                    })
-                })
-                const toastName = displayName.split(' ')[0];
-                toast.success(`${toastName}!!! Registration Successfully.`);
+    // loader on
+    setLoader(true);
 
-    }
-    catch(error){
-        toast.warning(`${error.message}`);
-        return;
-    }
-    finally {
-        // loader spinning off
+    // signup
+    createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+    )
+
+    .then((userCredential) => {
+
+        const user = userCredential.user;
+
+        // update profile
+        return updateProfile(user, {
+            displayName
+        })
+        .then(() => {
+
+            console.log(user);
+
+            const toastName =
+                displayName.split(" ")[0];
+
+            toast.success(
+                `${toastName}!!! Registration Successful.`
+            );
+
+            reset();
+        });
+    })
+
+    .catch((error) => {
+
+        // duplicate email
+        if (
+            error.code ===
+            "auth/email-already-in-use"
+        ) {
+
+            toast.warning(
+                "This email is already registered."
+            );
+
+            return;
+        }
+
+        // other errors
+        toast.error(error.message);
+
+    })
+
+    .finally(() => {
+
+        // loader off
         setLoader(false);
-    }
-        
-    
+
+    });
 }
-export {signupHandler}
+
+export { signupHandler };
