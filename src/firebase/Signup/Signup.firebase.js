@@ -12,11 +12,17 @@ const signupHandler = (
     password,
     displayName,
     setLoader,
+    terms,
     reset
 ) => {
 
     // prevent reload
     e.preventDefault();
+
+    if (!terms) {
+        toast.info(`Please Accept T&C.`);
+        return;
+    }
 
     // loader on
     setLoader(true);

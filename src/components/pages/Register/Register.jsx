@@ -15,7 +15,7 @@ const Register = () => {
     const registerHandler = e=>{
         signupHandler(e, auth, data.email,
              data.password,
-              data.displayName, setLoader, reset)
+              data.displayName, setLoader, data.terms, reset)
     }
     return (
         <div
