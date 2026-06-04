@@ -5,7 +5,7 @@ import { VscEye, VscEyeClosed } from 'react-icons/vsc';
 import useDataPicker from '../../../customhooks/dataPicker/dataPicker';
 import { signinHandler } from '../../../firebase/Signin/Signin';
 import { auth } from '../../../firebase/FirebaseInit/Firebase.init';
-import { useAuth } from './../../TestContest/TestContext';
+
 
 
 const Login = () => {
@@ -14,11 +14,11 @@ const Login = () => {
     const [data, setData, reset] = useDataPicker({
         email:'', password:''
     });
-    const {roha , rohaHatun} = useAuth();
+    
     const loginHandler = (e)=>{
         signinHandler(e, auth, data.email, data.password, reset, setLoader);
     }
-    console.log(`email: ${rohaHatun}`, `Identity:  ${roha}`);
+    
     return (
         <div className='w-full min-h-full flex flex-col items-center justify-center'>
             <form onSubmit={(e)=>loginHandler(e)}  action="#">
@@ -26,8 +26,8 @@ const Login = () => {
                 
                 <p className='text-center'>please log in your account</p>
 
-                <label className="label">{roha}</label>
-                <input value={data.email} name='email' type="email" className="input" placeholder={rohaHatun}
+                <label className="label">{`Email`}</label>
+                <input value={data.email} name='email' type="email" className="input" placeholder={`xample@xmple.com`}
                 onChange={(e)=>setData(e.target.name, e.target.value)}
                 />
 

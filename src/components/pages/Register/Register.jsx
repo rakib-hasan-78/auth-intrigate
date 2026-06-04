@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import { useToggle } from '../../../customhooks/toggle/toggle';
 import { VscEye, VscEyeClosed } from 'react-icons/vsc';
 import useDataPicker from '../../../customhooks/dataPicker/dataPicker';
-import { signupHandler } from '../../../firebase/Signup/Signup.firebase';
 import { auth } from '../../../firebase/FirebaseInit/Firebase.init';
+import { useAuth } from './../../TestContest/TestContext';
+
 
 const Register = () => {
     const [eye, setEye] = useToggle();
-    const [loader, setLoader] = useState(false);
+    const {signupHandler, loader} = useAuth()
     const [data, setData, reset] = useDataPicker({
         displayName: '', email: '', password: '', terms: false
     })
     const registerHandler = e=>{
         signupHandler(e, auth, data.email,
              data.password,
-              data.displayName, setLoader, data.terms, reset)
+              data.displayName, data.terms, reset)
     }
     return (
         <div

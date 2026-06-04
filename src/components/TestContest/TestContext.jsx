@@ -1,11 +1,55 @@
-import React, { createContext, use } from 'react';
-    const AuthContext = createContext();
-    export const useAuth = ()=> use(AuthContext);
+import React, { createContext, use, useState } from 'react';
+import { toast } from 'react-toastify';
+import { registerFirebase } from '../../firebase/Signup/Signup.firebase';
+
+const AuthContext = createContext();
+export const useAuth = ()=> use(AuthContext);
 
 const TestContext = ({children}) => {
-    const rohaHatun = `roha_hatun.teacher@boston.edu`;
-    const roha = `she is a university teacher`;
-    const value = {roha, rohaHatun};
+    const [loader, setLoader] = useState(false);
+    // register Handler 
+    const signupHandler = (
+        e,
+        auth,
+        email,
+        password,
+        displayName,
+        terms,
+        reset) => {
+        // stop browser from re-rendering
+        e.preventDefault();
+        // Loading state true
+        setLoader(true);
+
+        if (!terms) {
+            setLoader(false);
+            return toast.warning(`Please accept T&C.`);
+        }
+        else {
+            // firebase components 
+            return registerFirebase(
+                auth,
+                email,
+                password,
+                displayName
+            ).then(()=>{
+                const firstName = displayName.split(' ')[0];
+                toast.success(`Hey ${firstName}!! Registration is successful!`);
+                reset();
+            }).catch((error)=>{
+                if (error.code ===`auth/email-already-in-use`) {
+                    return toast.warning(`This email is already registered.`)
+                } else {
+                    return toast.error(`${error.message}`)
+                }
+            }).finally(()=>{
+                setLoader(false);
+            })
+        }
+        
+    }
+
+    const value = {loader,signupHandler}
     return (
         <AuthContext.Provider value={value}>
             {children}
