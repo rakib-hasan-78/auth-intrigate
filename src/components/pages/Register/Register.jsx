@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import { useToggle } from '../../../customhooks/toggle/toggle';
 import { VscEye, VscEyeClosed } from 'react-icons/vsc';
 import useDataPicker from '../../../customhooks/dataPicker/dataPicker';
-import { auth } from '../../../firebase/FirebaseInit/Firebase.init';
 import { useAuth } from './../../TestContest/TestContext';
 
 
@@ -14,9 +13,13 @@ const Register = () => {
         displayName: '', email: '', password: '', terms: false
     })
     const registerHandler = e=>{
-        signupHandler(e, auth, data.email,
-             data.password,
-              data.displayName, data.terms, reset)
+        signupHandler(
+            e,
+            data.email,
+            data.password,
+            data.displayName, 
+            data.terms, 
+            reset)
     }
     return (
         <div

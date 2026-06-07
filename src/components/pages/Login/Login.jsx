@@ -3,20 +3,23 @@ import { Link } from 'react-router';
 import { useToggle } from '../../../customhooks/toggle/toggle';
 import { VscEye, VscEyeClosed } from 'react-icons/vsc';
 import useDataPicker from '../../../customhooks/dataPicker/dataPicker';
-import { signinHandler } from '../../../firebase/Signin/Signin';
-import { auth } from '../../../firebase/FirebaseInit/Firebase.init';
+import { useAuth } from '../../TestContest/TestContext';
+
 
 
 
 const Login = () => {
-    const [loader, setLoader] = useState(false);
+    
     const [toggle, toggleHandler] = useToggle();
     const [data, setData, reset] = useDataPicker({
         email:'', password:''
     });
+    const {signinHandler, loader} = useAuth();
     
     const loginHandler = (e)=>{
-        signinHandler(e, auth, data.email, data.password, reset, setLoader);
+        e.preventDefault();
+        signinHandler(data.email, data.password, reset)
+
     }
     
     return (

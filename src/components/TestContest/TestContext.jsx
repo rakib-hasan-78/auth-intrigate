@@ -1,16 +1,21 @@
-import React, { createContext, use, useState } from 'react';
+import React, { createContext, use,  useEffect,  useState } from 'react';
 import { toast } from 'react-toastify';
 import { registerFirebase } from '../../firebase/Signup/Signup.firebase';
+import { auth } from '../../firebase/FirebaseInit/Firebase.init';
+import { onAuthStateChanged } from 'firebase/auth';
+import { firebaseSignIn } from '../../firebase/Signin/Signin';
+
 
 const AuthContext = createContext();
 export const useAuth = ()=> use(AuthContext);
 
 const TestContext = ({children}) => {
     const [loader, setLoader] = useState(false);
-    // register Handler 
+    const [loginUser, setLoginUser] = useState(null);
+
+    // ** register Handler 
     const signupHandler = (
         e,
-        auth,
         email,
         password,
         displayName,
@@ -48,8 +53,49 @@ const TestContext = ({children}) => {
         }
         
     }
+    // ** login state observer ==> 
+   useEffect(() => {
+    // set observer 
+     const unsubscribe = onAuthStateChanged(auth, (user)=>{
+        setLoginUser(user);
+        console.log(loginUser);
+     })
+   
+     return () => {
+       unsubscribe()
+     }
+   }, [])
 
-    const value = {loader,signupHandler}
+    // ** signin user 
+    
+    const signinHandler = (email, password, reset)=>{
+        setLoader(true)
+        return firebaseSignIn(
+            auth, 
+            email, 
+            password
+        ).then((user)=>{
+            console.log(user);
+             toast.success(
+                ` Hello ${
+                user.displayName?.split(' ')[0] ||
+                'Anonymous'
+                }` 
+            )
+            reset();
+            return;
+            
+        }).catch((error)=>{
+            if (error.code) {
+                return toast.error(`${error.code.replace('auth/','').replaceAll('-', ' ')}`)
+            }
+        }).finally(()=>{
+            setLoader(false)
+        })
+    }
+   
+
+    const value = {loader,signupHandler, signinHandler, loginUser}
     return (
         <AuthContext.Provider value={value}>
             {children}

@@ -1,7 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router';
+import { useAuth } from '../../TestContest/TestContext';
 
 const Nav = () => {
+  const {loginUser} = useAuth();
   const links = <>
           <li> <NavLink to={`/`}>home</NavLink></li>
           <li> <NavLink to={`/login`}>login</NavLink>  </li>
@@ -29,7 +31,7 @@ const Nav = () => {
     </ul>
   </div>
   <div className="navbar-end">
-    <a className="btn">Button</a>
+    <a className="btn">{loginUser ? 'logout':'login'}</a>
   </div>
 </div>
     );
