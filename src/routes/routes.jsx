@@ -5,6 +5,8 @@ import Login from './../components/pages/Login/Login';
 import Register from './../components/pages/Register/Register';
 import Blog from './../components/pages/Blog/Blog';
 import Dashboard from "../components/Dashboard/Dashboard";
+import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
+
 
 
 const rootRoutes = {
@@ -18,12 +20,16 @@ const rootRoutes = {
         },
         {
             path:`/blog`,
-            Component: Blog
+            element: <ProtectedRoute>
+                        <Blog />
+                    </ProtectedRoute>
         },
 
         {
             path:`/dashboard`,
-            Component:Dashboard
+            element: <ProtectedRoute>
+                        <Dashboard />
+                    </ProtectedRoute>
         },
 
         {
