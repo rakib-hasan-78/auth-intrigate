@@ -3,9 +3,16 @@ import { Link, NavLink } from 'react-router';
 import { useAuth } from '../../TestContest/TestContext';
 
 const Nav = () => {
-  const {loginUser} = useAuth();
+  const {loginUser, signOut} = useAuth();
   const links = <>
           <li> <NavLink to={`/`}>home</NavLink></li>
+          {
+            loginUser && <>
+            <li> <NavLink to={`/dashboard`}>dashboard</NavLink></li>
+            <li> <NavLink to={`/blog`}>blog</NavLink></li>
+
+            </>
+          }
           <li> <NavLink to={`/login`}>login</NavLink>  </li>
           <li> <NavLink to={`/signup`}>signup</NavLink>  </li>
 
@@ -15,7 +22,8 @@ const Nav = () => {
   <div className="navbar-start">
     <div className="dropdown">
       <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /> </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /> 
+        </svg>
       </div>
       <ul
         tabIndex="-1"
@@ -51,7 +59,7 @@ const Nav = () => {
           </a>
         </li>
         <li><a>Settings</a></li>
-        <li><a>Logout</a></li>
+        <li onClick={signOut}><a>Logout</a></li>
       </ul>
       </div>
       :

@@ -4,6 +4,7 @@ import { registerFirebase } from '../../firebase/Signup/Signup.firebase';
 import { auth } from '../../firebase/FirebaseInit/Firebase.init';
 import { onAuthStateChanged } from 'firebase/auth';
 import { firebaseSignIn } from '../../firebase/Signin/Signin';
+import firebaseSignout from '../../firebase/firebaseSignout/firebaseSignout';
 
 
 const AuthContext = createContext();
@@ -11,6 +12,7 @@ export const useAuth = ()=> use(AuthContext);
 
 const TestContext = ({children}) => {
     const [loader, setLoader] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [loginUser, setLoginUser] = useState(null);
 
     // ** register Handler 
@@ -58,7 +60,7 @@ const TestContext = ({children}) => {
     // set observer 
      const unsubscribe = onAuthStateChanged(auth, (user)=>{
         setLoginUser(user);
-        console.log(loginUser);
+        setLoading(false);
      })
    
      return () => {
@@ -93,9 +95,30 @@ const TestContext = ({children}) => {
             setLoader(false)
         })
     }
+    //** * logout handler 
+
+    const signOut = () => {
+        return firebaseSignout(auth)
+               .then(()=>{
+                toast.success(`sign out successfully!`)
+                console.log(`logout clicked...`);
+                return
+               })
+               .catch(error=>{
+                console.log(error.message);
+                return;
+               })
+    }
    
 
-    const value = {loader,signupHandler, signinHandler, loginUser}
+    const value = {
+        loader,
+        loading,
+        signupHandler,
+        signinHandler, 
+        loginUser,
+        signOut
+    }
     return (
         <AuthContext.Provider value={value}>
             {children}
