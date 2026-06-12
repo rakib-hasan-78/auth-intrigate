@@ -6,12 +6,14 @@ import Register from './../components/pages/Register/Register';
 import Blog from './../components/pages/Blog/Blog';
 import Dashboard from "../components/Dashboard/Dashboard";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
+import ErrorPage from './../components/pages/ErrorPage/ErrorPage';
 
 
 
 const rootRoutes = {
     path: '/',
     Component: Root,
+    errorElement: <ErrorPage />,
     children: [
 
         {
