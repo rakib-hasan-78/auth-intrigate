@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router';
+import React from 'react';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { useToggle } from '../../../customhooks/toggle/toggle';
 import { VscEye, VscEyeClosed } from 'react-icons/vsc';
 import useDataPicker from '../../../customhooks/dataPicker/dataPicker';
@@ -9,7 +9,10 @@ import { useAuth } from '../../TestContest/TestContext';
 
 
 const Login = () => {
-    
+    const location = useLocation();
+    console.log(location);
+    const navigate = useNavigate();
+    console.log(navigate);
     const [toggle, toggleHandler] = useToggle();
     const [data, setData, reset] = useDataPicker({
         email:'', password:''
@@ -19,8 +22,18 @@ const Login = () => {
     const loginHandler = (e)=>{
         e.preventDefault();
         signinHandler(data.email, data.password, reset)
-
+        .then(()=>{
+            
+                navigate(
+                    location.state || '/',
+                    {
+                        replace: true
+                    }
+                );
+        })
+        
     }
+
     
     return (
         <div className='w-full min-h-full flex flex-col items-center justify-center'>
@@ -87,3 +100,6 @@ const Login = () => {
 };
 
 export default Login;
+
+
+

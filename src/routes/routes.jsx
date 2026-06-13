@@ -13,7 +13,6 @@ import ErrorPage from './../components/pages/ErrorPage/ErrorPage';
 const rootRoutes = {
     path: '/',
     Component: Root,
-    errorElement: <ErrorPage />,
     children: [
 
         {
@@ -42,6 +41,10 @@ const rootRoutes = {
             path:'/signup',
             Component: Register
         },
+        {
+            path: '*',
+            Component: ErrorPage
+        }
     ]
 }
 export default rootRoutes;
