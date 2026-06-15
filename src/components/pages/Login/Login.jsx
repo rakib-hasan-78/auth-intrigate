@@ -37,8 +37,8 @@ const Login = () => {
     
     return (
         <div className='w-full min-h-full flex flex-col items-center justify-center'>
-            <form onSubmit={(e)=>loginHandler(e)}  action="#">
                 <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-5">
+            <form onSubmit={(e)=>loginHandler(e)}  action="#">
                 
                 <p className='text-center'>please log in your account</p>
 
@@ -87,6 +87,29 @@ const Login = () => {
                     `Login`
                 }
                 </button>
+            </form>
+                <button
+                 className="btn bg-white text-black border-[#e5e5e5] disabled:opacity-60 disabled:cursor-not-allowed">
+                 {
+                    loader ?
+                    <p 
+                    className='text-secondary'>
+                    <span className='loading loading-spinner text-secondary'></span>
+                    Checking....!    
+                    </p>
+                    :
+                     <span className='flex items-center space-x-2'>
+                        <span>
+                            <svg aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g><path d="m0 0H512V512H0" fill="#fff"></path><path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path><path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path><path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path><path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path></g></svg>
+
+                        </span>
+                        <span>
+                        Login with Google
+                        </span>
+                    </span>
+
+                 }
+                </button>
                     <div>
                         <a className="link link-hover">Forgot password?</a>
                     </div>
@@ -94,7 +117,6 @@ const Login = () => {
                         <p className="link link-hover text-xs">No account yet?  <span className='text-blue-400 font-bold mx-1'> <Link to={`/signup`} >   sign up </Link></span> </p>
                     </div>
                 </fieldset>
-            </form>
         </div>
     );
 };
