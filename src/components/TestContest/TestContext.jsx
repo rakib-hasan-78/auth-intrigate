@@ -5,6 +5,7 @@ import { auth } from '../../firebase/FirebaseInit/Firebase.init';
 import { onAuthStateChanged } from 'firebase/auth';
 import { firebaseSignIn } from '../../firebase/Signin/Signin';
 import firebaseSignout from '../../firebase/firebaseSignout/firebaseSignout';
+import googleSignIn from '../../firebase/googleSignIn/googleSignIn';
 
 
 const AuthContext = createContext();
@@ -95,6 +96,21 @@ const TestContext = ({children}) => {
             setLoader(false)
         })
     }
+    // ** Signin with google Handler 
+    const googleHandler = () => {
+        setLoader(true);
+        return googleSignIn(auth)
+                .then((user)=>{
+                    const firstName = user.displayName.split(' ')[0];
+                    toast.success(`Welcome Back ${firstName}!`)
+                })
+                .catch(error=>{
+                    console.log(error.message)
+                })
+                .finally(()=>{
+                    setLoader(false);
+                })
+    }
     //** * logout handler 
 
     const signOut = () => {
@@ -117,7 +133,8 @@ const TestContext = ({children}) => {
         signupHandler,
         signinHandler, 
         loginUser,
-        signOut
+        signOut, 
+        googleHandler
     }
     return (
         <AuthContext.Provider value={value}>
