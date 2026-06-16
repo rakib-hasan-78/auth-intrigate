@@ -36,19 +36,15 @@ const Login = () => {
         
     }
 
-const googleLogInHandler = async () => {
+const googleLogInHandler =  () => {
     if (loginUser) return toast.info(`account already logged in`);
 
-    const user = await googleHandler();
-
-    if(user){
-        navigate(
-            location.state || '/',
-            {
-                replace:true
-            }
-        );
-    }
+    return googleHandler()
+        .then(()=>{
+            navigate(location.state || '/', {
+                replace: true
+            })
+        })
 }
 
     
