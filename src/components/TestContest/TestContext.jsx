@@ -12,7 +12,10 @@ const AuthContext = createContext();
 export const useAuth = ()=> use(AuthContext);
 
 const TestContext = ({children}) => {
-    const [loader, setLoader] = useState(false);
+    const [loader, setLoader] = useState({
+    email: false,
+    google: false
+});
     const [loading, setLoading] = useState(true);
     const [loginUser, setLoginUser] = useState(null);
 
@@ -27,10 +30,10 @@ const TestContext = ({children}) => {
         // stop browser from re-rendering
         e.preventDefault();
         // Loading state true
-        setLoader(true);
+        setLoader(prev=>({...prev, email:true}));
 
         if (!terms) {
-            setLoader(false);
+            setLoader(prev=>({...prev, email:true}));
             return toast.warning(`Please accept T&C.`);
         }
         else {
@@ -51,7 +54,7 @@ const TestContext = ({children}) => {
                     return toast.error(`${error.message}`)
                 }
             }).finally(()=>{
-                setLoader(false);
+                setLoader(prev=>({...prev, email:false}));
             })
         }
         
@@ -72,7 +75,7 @@ const TestContext = ({children}) => {
     // ** signin user 
     
     const signinHandler = (email, password, reset)=>{
-        setLoader(true)
+        setLoader(prev=>({...prev, email:true}))
         return firebaseSignIn(
             auth, 
             email, 
@@ -93,22 +96,22 @@ const TestContext = ({children}) => {
                 return toast.error(`${error.code.replace('auth/','').replaceAll('-', ' ')}`)
             }
         }).finally(()=>{
-            setLoader(false)
+            setLoader(prev=>({...prev, email:false}))
         })
     }
     // ** Signin with google Handler 
     const googleHandler = () => {
-        setLoader(true);
+        setLoader(prev=>({...prev, google:true}));
         return googleSignIn(auth)
-                .then((user)=>{
-                    const firstName = user.displayName.split(' ')[0];
+                .then((result)=>{
+                    const firstName = result.user.displayName.split(' ')[0];
                     toast.success(`Welcome Back ${firstName}!`)
                 })
                 .catch(error=>{
                     console.log(error.message)
                 })
                 .finally(()=>{
-                    setLoader(false);
+                    setLoader(prev=>({...prev, google:false}));
                 })
     }
     //** * logout handler 

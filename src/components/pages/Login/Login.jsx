@@ -4,6 +4,7 @@ import { useToggle } from '../../../customhooks/toggle/toggle';
 import { VscEye, VscEyeClosed } from 'react-icons/vsc';
 import useDataPicker from '../../../customhooks/dataPicker/dataPicker';
 import { useAuth } from '../../TestContest/TestContext';
+import { toast } from 'react-toastify';
 
 
 
@@ -17,10 +18,11 @@ const Login = () => {
     const [data, setData, reset] = useDataPicker({
         email:'', password:''
     });
-    const {signinHandler, loader} = useAuth();
+    const {signinHandler, loader, googleHandler, loginUser} = useAuth();
     
     const loginHandler = (e)=>{
         e.preventDefault();
+        if (loginUser) return toast.info(`account already logged in`);
         signinHandler(data.email, data.password, reset)
         .then(()=>{
             
@@ -33,6 +35,21 @@ const Login = () => {
         })
         
     }
+
+const googleLogInHandler = async () => {
+    if (loginUser) return toast.info(`account already logged in`);
+
+    const user = await googleHandler();
+
+    if(user){
+        navigate(
+            location.state || '/',
+            {
+                replace:true
+            }
+        );
+    }
+}
 
     
     return (
@@ -72,10 +89,10 @@ const Login = () => {
                 <button 
                 type='submit' 
                 className="btn btn-neutral mt-4btn btn-neutral mt-4 w-full flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
-                disabled={loader}
+                disabled={loader.email}
                 >
                 {
-                    loader ?
+                    loader.email ?
                     <p 
                     className='text-secondary'>
                     <span className='loading loading-spinner text-secondary'></span>
@@ -89,9 +106,11 @@ const Login = () => {
                 </button>
             </form>
                 <button
-                 className="btn bg-white text-black border-[#e5e5e5] disabled:opacity-60 disabled:cursor-not-allowed">
+                 onClick={googleLogInHandler}
+                 className="btn bg-white text-black border-[#e5e5e5] disabled:opacity-60 disabled:cursor-not-allowed"
+                 disabled={loader.google}>
                  {
-                    loader ?
+                    loader.google ?
                     <p 
                     className='text-secondary'>
                     <span className='loading loading-spinner text-secondary'></span>
