@@ -4,6 +4,10 @@ import { useAuth } from '../../TestContest/TestContext';
 
 const Nav = () => {
   const {loginUser, signOut} = useAuth();
+  const avatar =
+  loginUser?.photoURL ||
+  "https://i.ibb.co/placeholder-avatar.png";
+
   const links = <>
           <li> <NavLink to={`/`}>home</NavLink></li>
           {
@@ -46,12 +50,25 @@ const Nav = () => {
         <div className="w-10 rounded-full">
           <img
             alt="Tailwind CSS Navbar component"
-            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            src={
+                  avatar
+            } />
         </div>
       </div>
       <ul
         tabIndex="-1"
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+        <div className='flex flex-col content-center items-center'>
+          <img
+          className='rounded-full w-16 h-16 p-0.5'
+           src={avatar} 
+            alt={loginUser?.displayName} />
+            <h4>{loginUser?.displayName}</h4>
+            <span 
+            className='text-[10px] lowercase text-blue-800 font-bold'>
+            {loginUser.email}
+            </span>
+        </div>
         <li>
           <a className="justify-between">
             Profile

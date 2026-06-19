@@ -73,10 +73,10 @@ const Register = () => {
                                     <button 
                                     type='submit' 
                                     className="btn btn-neutral mt-4btn btn-neutral mt-4 w-full flex items-center justify-center gap-2 disabled:opacity-80 disabled:cursor-not-allowed"
-                                    disabled={loader}
+                                    disabled={loader.signup}
                                     >
 
-                                    {loader ? 
+                                    {loader.signup ? 
                                 
                                     <p className='text-secondary'><span className="loading loading-spinner text-secondary">   </span> Loading.... </p> 
                                     :`Register Now`}

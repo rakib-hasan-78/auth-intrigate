@@ -14,7 +14,8 @@ export const useAuth = ()=> use(AuthContext);
 const TestContext = ({children}) => {
     const [loader, setLoader] = useState({
     email: false,
-    google: false
+    google: false,
+    signup: false
 });
     const [loading, setLoading] = useState(true);
     const [loginUser, setLoginUser] = useState(null);
@@ -30,10 +31,10 @@ const TestContext = ({children}) => {
         // stop browser from re-rendering
         e.preventDefault();
         // Loading state true
-        setLoader(prev=>({...prev, email:true}));
+        setLoader(prev=>({...prev, signup:true}));
 
         if (!terms) {
-            setLoader(prev=>({...prev, email:true}));
+            setLoader(prev=>({...prev, signup:false}));
             return toast.warning(`Please accept T&C.`);
         }
         else {
@@ -54,7 +55,7 @@ const TestContext = ({children}) => {
                     return toast.error(`${error.message}`)
                 }
             }).finally(()=>{
-                setLoader(prev=>({...prev, email:false}));
+                setLoader(prev=>({...prev, signup:false}));
             })
         }
         
@@ -128,6 +129,15 @@ const TestContext = ({children}) => {
                 return;
                })
     }
+
+    useEffect(() => {
+
+console.log(
+'USER:',
+loginUser
+);
+
+}, [loginUser])
    
 
     const value = {
